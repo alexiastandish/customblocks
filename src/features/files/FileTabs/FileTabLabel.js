@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { removeBlockFile } from '../../../thunks/remove-file'
-import { setActiveFile, removeFile } from '../filesSlice'
+import { handleRemoveFile } from '../../../utils/handleRemoveFile'
+import { setActiveFile } from '../filesSlice'
 
 function FileTabLabel({
     title,
@@ -17,38 +17,32 @@ function FileTabLabel({
         dispatch(setActiveFile(files[index].id))
     }, [index, dispatch, files])
 
-    console.log('files', files)
     return (
         <>
             <li className={selectedTab === index ? 'selected' : ''}>
-                <button onClick={onClick}>{title}</button>
-                {unsaved ? (
-                    <span onClick={() => setBlockValidation(files[index].id)}>
-                        o
-                    </span>
-                ) : (
-                    <span
-                        onClick={() => {
-                            const removedFileIndex = index
-                            const activeFileIndex = selectedTab
-
-                            if (activeFileIndex === removedFileIndex) {
-                                if (removedFileIndex === 0) {
-                                    dispatch(setActiveFile(files[1].id))
-                                }
-                                dispatch(
-                                    setActiveFile(
-                                        files[removedFileIndex - 1].id
-                                    )
+                <button onClick={onClick}>
+                    {title}{' '}
+                    {unsaved ? (
+                        <span
+                            onClick={() => setBlockValidation(files[index].id)}
+                        >
+                            o
+                        </span>
+                    ) : (
+                        <span
+                            onClick={() => {
+                                return handleRemoveFile(
+                                    index,
+                                    selectedTab,
+                                    files,
+                                    dispatch
                                 )
-                            }
-                            dispatch(removeBlockFile(files[index].id))
-                        }}
-                    >
-                        x
-                    </span>
-                    // <span onClick={() => dispatch(removeFile(index))}>x</span>
-                )}
+                            }}
+                        >
+                            x
+                        </span>
+                    )}
+                </button>
             </li>
         </>
     )

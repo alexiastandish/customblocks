@@ -4,7 +4,7 @@ import { getBlocksLength } from '../blocks/blocksSlice'
 import { getFiles } from './filesSlice'
 
 // export const filesSelector = createSelector(
-//     [getBlocksLength, getFiles],
+//     [getBlocks, getFiles],
 //     ({ ids }, activeFiles) => {
 //         if (activeFiles.length === 0 && ids) {
 //             const newFile = generateNewBlock(ids.length)

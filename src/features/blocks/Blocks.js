@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { blocksAddOne, blocksSetAll, getBlocks } from './blocksSlice'
+import { blocksAddOne, getBlocks } from './blocksSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { blocksSelector } from './blocksSelectors'
 import { setInitialFiles } from '../../thunks/set-initial-files'
@@ -12,19 +12,12 @@ function Blocks(props) {
 
     useEffect(() => {
         dispatch(getBlocks(allBlocks)).then(({ payload }) => {
-            // dispatch(blocksSetAll())
             const blocksLength = Object.values(payload).length
             const newBlankBlock = generateNewBlock(blocksLength)
             dispatch(blocksAddOne(newBlankBlock))
             dispatch(setInitialFiles(newBlankBlock))
         })
     }, [dispatch])
-
-    //   const resetBlocks = async () => {
-    //     fetchBlocks().then((res) => {
-    //         dispatch(blocksSetAll(res))
-    //     })
-    // }
 
     return (
         <div>

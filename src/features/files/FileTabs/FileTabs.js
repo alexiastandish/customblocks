@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import './FileTabs.css'
 import { addNewBlock } from 'thunks/add-new-block'
 import { blocksSelector } from '../../blocks/blocksSelectors'
-import { Button, Modal } from 'semantic-ui-react'
-import { removeBlockFile } from 'thunks/remove-file'
-import { setActiveFile } from '../filesSlice'
+import { Modal } from 'semantic-ui-react'
+import { handleRemoveFile } from '../../../utils/handleRemoveFile'
 
 function FileTabs({ children }) {
     const [validating, setValidating] = useState({
@@ -28,7 +27,7 @@ function FileTabs({ children }) {
             <ul className="tabrow">
                 {children.map((item, index) => {
                     const itemId = files[index].id
-                    const blockUnsaved = getBlocks[itemId].unsavedBlock
+                    const blockUnsaved = getBlocks[itemId].unsavedChanges
 
                     return (
                         <FileTabLabel
@@ -49,7 +48,6 @@ function FileTabs({ children }) {
             {children[findFile]}
             <Modal
                 open={validating.open}
-                // trigger={<Button>Show Modal</Button>}
                 header="Reminder!"
                 content="Call Benjamin regarding the reports."
                 actions={[
@@ -61,51 +59,17 @@ function FileTabs({ children }) {
                             const removedFileIndex = files.findIndex(
                                 (file) => file.id === validating.id
                             )
-
-                            // const activeFileIndex = activeFile
                             const activeFileIndex = files.findIndex(
                                 (file) => file.id === activeFile
                             )
-
-                            console.log('removedFileIndex', removedFileIndex)
-                            console.log('activeFileIndex', activeFileIndex)
-
-                            if (activeFileIndex === removedFileIndex) {
-                                if (removedFileIndex === 0) {
-                                    dispatch(setActiveFile(files[1].id))
-                                }
-                                dispatch(
-                                    setActiveFile(
-                                        files[removedFileIndex - 1].id
-                                    )
-                                )
-                            }
-                            dispatch(
-                                removeBlockFile(validating.id, setValidating)
+                            handleRemoveFile(
+                                removedFileIndex,
+                                activeFileIndex,
+                                files,
+                                dispatch
                             )
-                            // dispatch(
-                            //     removeBlockFile(validating.id, setValidating)
-                            // ).then((res) => {
-                            //     const removedFile = files.findIndex((file) => {
-                            //         return file.id === activeFile
-                            //     })
 
-                            //     const fileToClose = files.filter(
-                            //         (file) => file.id === activeFile
-                            //     )[0]
-
-                            //     if (
-                            //         files.length >= 2 &&
-                            //         files[removedFile].id === activeFile
-                            //     ) {
-                            //         const newActiveFile = getNewActiveFileId(
-                            //             files,
-                            //             files.length,
-                            //             fileToClose
-                            //         )
-                            //         dispatch(setActiveFile(newActiveFile.id))
-                            //     }
-                            // })
+                            return setValidating({ id: null, open: false })
                         },
                     },
                     { key: 'save', content: 'Save', positive: true },
@@ -115,13 +79,3 @@ function FileTabs({ children }) {
     )
 }
 export default FileTabs
-
-const getNewActiveFileId = (activeFiles, activeFilesLength, fileToClose) => {
-    const fileToBeRemovedIndex = activeFiles.indexOf(fileToClose)
-
-    if (fileToBeRemovedIndex + 1 === activeFilesLength) {
-        return activeFiles[fileToBeRemovedIndex - 1]
-    }
-
-    return activeFiles[fileToBeRemovedIndex + 1]
-}

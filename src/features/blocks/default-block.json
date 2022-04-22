@@ -4,5 +4,6 @@
         "html": "<div>block</div>",
         "js": "console.log(\"block\")"
     },
-    "unsavedBlock": true
+    "unsavedBlock": true,
+    "unsavedChanges": true
 }

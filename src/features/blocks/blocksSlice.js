@@ -1,17 +1,10 @@
-import {
-    createSlice,
-    createEntityAdapter,
-    createAsyncThunk,
-} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { fetchBlocks } from './blocksApi'
-
-const blocksAdapter = createEntityAdapter({
-    selectIds: (block) => block.id,
-})
+import blocksAdapter from './blocksAdapter'
 
 export const getBlocks = createAsyncThunk(
     'blocks/fetchBlocks',
-    async (allBlocks, thunkAPI) => {
+    async (allBlocks) => {
         const res = await fetchBlocks().then((data) => {
             return data
         })
@@ -25,8 +18,6 @@ export const getBlocks = createAsyncThunk(
         return res
     }
 )
-
-// export const resetBlocks = createAction('blocks/reset')
 
 export const blocksSlice = createSlice({
     name: 'blocks',
@@ -52,11 +43,6 @@ export const blocksSlice = createSlice({
             state.loading = false
         },
     },
-    // (builder) => {
-    //     builder.addCase(resetBlocks, () => {
-    //         return blocksAdapter.getInitialState()
-    //     })
-    // },
 })
 
 export const { blocksAddOne, blocksSetAll, blockUpdate, blockRemove } =

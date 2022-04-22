@@ -1,5 +1,5 @@
 .tabrow {
-    text-align: center;
+    text-align: left;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -21,7 +21,6 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 #fff;
     text-shadow: 0 1px #fff;
     margin: 0 -5px;
-    padding: 0 30px;
 }
 
 .tabrow li.selected {
@@ -71,4 +70,27 @@
 
 .tabrow li.selected:after {
     box-shadow: -2px 0px 0 #fff;
+}
+
+.tabrow > li > button {
+    display: flex;
+    justify-content: space-around;
+    width: 120px;
+    height: 100%;
+    padding: 0.5em 0;
+}
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 0.5em 2em;
+    margin: 0;
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    background: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }

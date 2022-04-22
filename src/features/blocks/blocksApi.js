@@ -1,5 +1,5 @@
 import { db } from '../../services/firebase/init-firebase'
-import { ref, onValue } from 'firebase/database'
+import { ref, onValue, set } from 'firebase/database'
 
 export const fetchBlocks = () => {
     return new Promise((resolve) => {
@@ -28,4 +28,12 @@ export const fetchBlock = (id) => {
             console.error('error', error)
         }
     })
+}
+
+export const setBlocks = async (id, block) => {
+    const currentBlocks = await fetchBlocks()
+    let updatedBlocks = { ...currentBlocks }
+    updatedBlocks[id] = { ...block, unsavedBlock: false }
+
+    set(ref(db, 'blocks/'), updatedBlocks)
 }

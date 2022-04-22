@@ -2,16 +2,14 @@ import React, { useCallback, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { getActiveFileCode } from './editorSelectors'
 import { debounce } from 'lodash'
-
-// import { debounce } from 'lodash'
-
-// import { getCode, setExtension } from 'features/editor/editor-slice'
 import { updateAndPersistCode } from 'thunks/update-and-persist-code'
 import { setExtension } from './editorSlice'
 import { fetchAndSetResetCode } from '../../thunks/fetch-and-set-code'
 import { blockUpdate } from '../blocks/blocksSlice'
+import styled from 'styled-components'
 
 function Editor(props) {
+    // TODO: This file is a WIP - needs some clean up and abstraction of functions that are being reused
     const dispatch = useDispatch()
     const activeFileCode = useSelector(getActiveFileCode)
     const extension = useSelector((state) => state.editor.extension)
@@ -24,17 +22,18 @@ function Editor(props) {
         debounce((newCode) => {
             dispatch(updateAndPersistCode(newCode)).then((updatedBlock) => {
                 if (updatedBlock.files[extension] !== initialFiles[extension]) {
+                    console.log('updatedBlock', updatedBlock)
                     dispatch(
                         blockUpdate({
                             id: activeFile,
-                            changes: { ...updatedBlock, unsavedBlock: true },
+                            changes: { ...updatedBlock, unsavedChanges: true },
                         })
                     )
                 } else {
                     dispatch(
                         blockUpdate({
                             id: activeFile,
-                            changes: { ...updatedBlock, unsavedBlock: false },
+                            changes: { ...updatedBlock, unsavedChanges: false },
                         })
                     )
                 }
@@ -51,7 +50,7 @@ function Editor(props) {
                 }
             })
         }
-        // }
+
         getBlockCode()
     }, [activeFile, extension])
 
@@ -72,18 +71,39 @@ function Editor(props) {
     }
 
     return (
-        <div>
+        <StyledEditor>
             <div>
-                <button onClick={() => setActiveExtension('html')}>html</button>
-                <button onClick={() => setActiveExtension('css')}>css</button>
-                <button onClick={() => setActiveExtension('js')}>js</button>
+                <StyledButton
+                    active={extension === 'html'}
+                    onClick={() => setActiveExtension('html')}
+                >
+                    html
+                </StyledButton>
+                <StyledButton
+                    active={extension === 'css'}
+                    onClick={() => setActiveExtension('css')}
+                >
+                    css
+                </StyledButton>
+                <StyledButton
+                    active={extension === 'js'}
+                    onClick={() => setActiveExtension('js')}
+                >
+                    js
+                </StyledButton>
             </div>
             <textarea
+                style={{ width: '100%', height: '30em' }}
                 onChange={(e) => onChange(e)}
                 value={code}
                 // language={language}
             />
-        </div>
+        </StyledEditor>
     )
 }
 export default Editor
+
+const StyledEditor = styled.div``
+const StyledButton = styled.button`
+    background: ${(props) => (props.active ? 'gray' : 'white')};
+`
