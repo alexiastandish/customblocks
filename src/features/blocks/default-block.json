@@ -1,0 +1,8 @@
+{
+    "files": {
+        "css": ".block {}",
+        "html": "<div>block</div>",
+        "js": "console.log(\"block\")"
+    },
+    "unsavedBlock": true
+}
