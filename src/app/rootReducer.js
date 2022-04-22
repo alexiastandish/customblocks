@@ -14,7 +14,7 @@ import { filesSlice } from '../features/files/filesSlice'
 const persistConfig = {
     key: 'codeblocks',
     storage,
-    whitelist: ['blocks'],
+    whitelist: ['blocks', 'files'],
 }
 
 const appReducer = combineReducers({

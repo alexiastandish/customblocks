@@ -39,7 +39,6 @@ export const blocksSlice = createSlice({
             state.loading = true
         },
         [getBlocks.fulfilled]: (state, { payload }) => {
-            console.log('payload', payload)
             state.loading = false
             blocksAdapter.upsertMany(state, payload)
         },
