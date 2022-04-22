@@ -4,8 +4,7 @@ import generateNewBlock from '../utils/generateNewBlock'
 
 export const addNewBlock = (blocksLength) => async (dispatch, getState) => {
     const newBlankBlock = { ...generateNewBlock(blocksLength) }
+    await dispatch(blocksAddOne(newBlankBlock))
     await dispatch(addFile({ id: newBlankBlock.id, name: newBlankBlock.name }))
     await dispatch(setActiveFile(newBlankBlock.id))
-
-    await dispatch(blocksAddOne(newBlankBlock))
 }

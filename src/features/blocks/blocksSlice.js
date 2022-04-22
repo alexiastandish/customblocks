@@ -53,6 +53,6 @@ export const blocksSlice = createSlice({
     // },
 })
 
-export const { blocksAddOne, blocksSetAll } = blocksSlice.actions
+export const { blocksAddOne, blocksSetAll, blockUpdate } = blocksSlice.actions
 
 export const getBlocksLength = (state) => state.blocks

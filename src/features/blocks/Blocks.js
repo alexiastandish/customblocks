@@ -12,8 +12,12 @@ import { addAndSetFile } from '../../thunks/add-and-set-file'
 function Blocks(props) {
     const dispatch = useDispatch()
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
-
+    console.log('allBlocks', allBlocks)
     useEffect(() => {
+        console.log('allBlocks', allBlocks)
+        // if (allBlocks && allBlocks.length > 0) {
+        //     return
+        // }
         dispatch(getBlocks()).then(({ payload }) => {
             const blocksLength = Object.values(payload).length
             const newBlankBlock = generateNewBlock(blocksLength)

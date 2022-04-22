@@ -1,8 +1,4 @@
-import {
-    createSlice,
-    createEntityAdapter,
-    createAsyncThunk,
-} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     files: [],
@@ -28,5 +24,3 @@ export const filesSlice = createSlice({
 export const { addFile, setActiveFile, setFileName } = filesSlice.actions
 
 export const getFiles = (state) => state.files.files
-
-// export const
