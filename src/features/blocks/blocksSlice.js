@@ -12,10 +12,18 @@ const blocksAdapter = createEntityAdapter({
 
 export const getBlocks = createAsyncThunk(
     'blocks/fetchBlocks',
-    async (thunkAPI) => {
+    async (allBlocks, thunkAPI) => {
+        console.log('allBlocks', allBlocks)
         const res = await fetchBlocks().then((data) => {
             return data
         })
+        if (allBlocks.length > 0) {
+            allBlocks.map((block) => {
+                if (res && res[block.id]) {
+                    res[block.id] = { ...res[block.id], files: block.files }
+                }
+            })
+        }
         return res
     }
 )
@@ -40,6 +48,7 @@ export const blocksSlice = createSlice({
         },
         [getBlocks.fulfilled]: (state, { payload }) => {
             state.loading = false
+            console.log('PAYLOAD', payload)
             blocksAdapter.upsertMany(state, payload)
         },
         [getBlocks.rejected]: (state) => {

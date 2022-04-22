@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { blocksAddOne, blocksSetAll, getBlocks } from './blocksSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBlocks } from './blocksApi'
 import { blocksSelector } from './blocksSelectors'
-import { addNewBlock } from '../../thunks/add-new-block'
 import { setInitialFiles } from '../../thunks/set-initial-files'
 import generateNewBlock from '../../utils/generateNewBlock'
-import { addFile, setActiveFile } from '../files/filesSlice'
 import { addAndSetFile } from '../../thunks/add-and-set-file'
 
 function Blocks(props) {
     const dispatch = useDispatch()
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
-    console.log('allBlocks', allBlocks)
+
     useEffect(() => {
-        console.log('allBlocks', allBlocks)
-        // if (allBlocks && allBlocks.length > 0) {
-        //     return
-        // }
-        dispatch(getBlocks()).then(({ payload }) => {
+        dispatch(getBlocks(allBlocks)).then(({ payload }) => {
+            // dispatch(blocksSetAll())
             const blocksLength = Object.values(payload).length
             const newBlankBlock = generateNewBlock(blocksLength)
             dispatch(blocksAddOne(newBlankBlock))
@@ -26,26 +20,8 @@ function Blocks(props) {
         })
     }, [dispatch])
 
-    // const resetBlocks = async () => {
-    //     fetchBlocks().then((res) => {
-    //         dispatch(blocksSetAll(res))
-    //     })
-    // }
-
     return (
         <div>
-            <button onClick={() => dispatch(addNewBlock(allBlocks.length))}>
-                Add block
-            </button>
-            {/* <button onClick={() => resetBlocks()}>reset</button> */}
-            {/* <ul>
-                FILES
-                {allBlocks &&
-                    allBlocks.map((block) => {
-                        return <li key={block.id}>{block.name} </li>
-                    })}
-            </ul> */}
-
             <ul>
                 DB BLOCKS
                 {allBlocks &&
@@ -53,14 +29,6 @@ function Blocks(props) {
                         if (!block.unsavedBlock) {
                             return (
                                 <li
-                                    // onClick={(e) => {
-                                    //     return dispatch(
-                                    //         addFile({
-                                    //             id: block.id,
-                                    //             name: block.name,
-                                    //         })
-                                    //     )
-                                    // }}
                                     onClick={() =>
                                         dispatch(addAndSetFile(block))
                                     }

@@ -12,7 +12,6 @@ import { setExtension } from './editorSlice'
 function Editor(props) {
     const dispatch = useDispatch()
     const activeFileCode = useSelector(getActiveFileCode)
-    console.log('activeFileCode', activeFileCode)
     const [code, setCode] = useState(activeFileCode)
 
     const debouncedSave = useCallback(
@@ -29,14 +28,12 @@ function Editor(props) {
     }
 
     useEffect(() => {
-        console.log('code', code)
         if (activeFileCode !== code) {
             setCode(activeFileCode)
         }
     }, [activeFileCode])
 
     const setActiveExtension = (lang) => {
-        console.log('lang', lang)
         dispatch(setExtension(lang))
     }
 

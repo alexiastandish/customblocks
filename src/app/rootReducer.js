@@ -9,7 +9,7 @@ import { editorSlice } from '../features/editor/editorSlice'
 const persistConfig = {
     key: 'codeblocks',
     storage,
-    whitelist: ['blocks', 'files'],
+    whitelist: ['blocks', 'files', 'editor'],
 }
 
 const appReducer = combineReducers({
