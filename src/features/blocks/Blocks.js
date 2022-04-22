@@ -20,6 +20,12 @@ function Blocks(props) {
         })
     }, [dispatch])
 
+    //   const resetBlocks = async () => {
+    //     fetchBlocks().then((res) => {
+    //         dispatch(blocksSetAll(res))
+    //     })
+    // }
+
     return (
         <div>
             <ul>

@@ -14,3 +14,20 @@ export const fetchBlocks = () => {
         }
     })
 }
+
+export const fetchBlock = (id) => {
+    return new Promise((resolve) => {
+        try {
+            const blocksListRef = ref(db, 'blocks/')
+            onValue(blocksListRef, (snapshot) => {
+                const data = snapshot.val()
+                console.log('id', id)
+                console.log('data', data)
+                const block = data[id]
+                resolve(block)
+            })
+        } catch (error) {
+            console.error('error', error)
+        }
+    })
+}
