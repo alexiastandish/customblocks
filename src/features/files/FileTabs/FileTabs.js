@@ -6,6 +6,7 @@ import { addNewBlock } from 'thunks/add-new-block'
 import { blocksSelector } from '../../blocks/blocksSelectors'
 import { Button, Modal } from 'semantic-ui-react'
 import { removeBlockFile } from 'thunks/remove-file'
+import { setActiveFile } from '../filesSlice'
 
 function FileTabs({ children }) {
     const [validating, setValidating] = useState({
@@ -18,7 +19,6 @@ function FileTabs({ children }) {
     const findFile = files.findIndex((el) => el.id === activeFile)
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
     const getBlocks = useSelector((state) => state.blocks.entities)
-    console.log('getBlocks', getBlocks)
 
     const setBlockValidation = (id) => {
         setValidating({ id, open: true })
@@ -58,9 +58,54 @@ function FileTabs({ children }) {
                         content: `Don't Save`,
                         positive: false,
                         onClick: () => {
+                            const removedFileIndex = files.findIndex(
+                                (file) => file.id === validating.id
+                            )
+
+                            // const activeFileIndex = activeFile
+                            const activeFileIndex = files.findIndex(
+                                (file) => file.id === activeFile
+                            )
+
+                            console.log('removedFileIndex', removedFileIndex)
+                            console.log('activeFileIndex', activeFileIndex)
+
+                            if (activeFileIndex === removedFileIndex) {
+                                if (removedFileIndex === 0) {
+                                    dispatch(setActiveFile(files[1].id))
+                                }
+                                dispatch(
+                                    setActiveFile(
+                                        files[removedFileIndex - 1].id
+                                    )
+                                )
+                            }
                             dispatch(
                                 removeBlockFile(validating.id, setValidating)
                             )
+                            // dispatch(
+                            //     removeBlockFile(validating.id, setValidating)
+                            // ).then((res) => {
+                            //     const removedFile = files.findIndex((file) => {
+                            //         return file.id === activeFile
+                            //     })
+
+                            //     const fileToClose = files.filter(
+                            //         (file) => file.id === activeFile
+                            //     )[0]
+
+                            //     if (
+                            //         files.length >= 2 &&
+                            //         files[removedFile].id === activeFile
+                            //     ) {
+                            //         const newActiveFile = getNewActiveFileId(
+                            //             files,
+                            //             files.length,
+                            //             fileToClose
+                            //         )
+                            //         dispatch(setActiveFile(newActiveFile.id))
+                            //     }
+                            // })
                         },
                     },
                     { key: 'save', content: 'Save', positive: true },
@@ -70,3 +115,13 @@ function FileTabs({ children }) {
     )
 }
 export default FileTabs
+
+const getNewActiveFileId = (activeFiles, activeFilesLength, fileToClose) => {
+    const fileToBeRemovedIndex = activeFiles.indexOf(fileToClose)
+
+    if (fileToBeRemovedIndex + 1 === activeFilesLength) {
+        return activeFiles[fileToBeRemovedIndex - 1]
+    }
+
+    return activeFiles[fileToBeRemovedIndex + 1]
+}

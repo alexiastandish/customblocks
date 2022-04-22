@@ -17,6 +17,7 @@ function FileTabLabel({
         dispatch(setActiveFile(files[index].id))
     }, [index, dispatch, files])
 
+    console.log('files', files)
     return (
         <>
             <li className={selectedTab === index ? 'selected' : ''}>
@@ -27,9 +28,22 @@ function FileTabLabel({
                     </span>
                 ) : (
                     <span
-                        onClick={() =>
+                        onClick={() => {
+                            const removedFileIndex = index
+                            const activeFileIndex = selectedTab
+
+                            if (activeFileIndex === removedFileIndex) {
+                                if (removedFileIndex === 0) {
+                                    dispatch(setActiveFile(files[1].id))
+                                }
+                                dispatch(
+                                    setActiveFile(
+                                        files[removedFileIndex - 1].id
+                                    )
+                                )
+                            }
                             dispatch(removeBlockFile(files[index].id))
-                        }
+                        }}
                     >
                         x
                     </span>

@@ -21,8 +21,6 @@ export const fetchBlock = (id) => {
             const blocksListRef = ref(db, 'blocks/')
             onValue(blocksListRef, (snapshot) => {
                 const data = snapshot.val()
-                console.log('id', id)
-                console.log('data', data)
                 const block = data[id]
                 resolve(block)
             })

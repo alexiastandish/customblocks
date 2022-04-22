@@ -14,4 +14,5 @@ export const updateAndPersistCode = (newCode) => async (dispatch, getState) => {
         },
     }
     await dispatch(blockUpdate({ id: activeFile, changes: updatedBlock }))
+    return updatedBlock
 }
