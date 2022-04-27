@@ -16,6 +16,7 @@ export const fetchBlocks = () => {
 }
 
 export const fetchBlock = (id) => {
+    console.log('id', id)
     return new Promise((resolve) => {
         try {
             const blocksListRef = ref(db, 'blocks/')

@@ -8,12 +8,12 @@ import { editorSlice } from '../features/editor/editorSlice'
 const persistConfig = {
     key: 'codeblocks',
     storage,
-    whitelist: ['blocks', 'files', 'editor'],
+    whitelist: ['blocks', 'editor'],
 }
 
 const appReducer = combineReducers({
-    files: filesSlice.reducer,
     blocks: blocksSlice.reducer,
+    // files: filesSlice.reducer,
     editor: editorSlice.reducer,
 })
 

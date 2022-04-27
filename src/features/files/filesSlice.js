@@ -27,4 +27,4 @@ export const filesSlice = createSlice({
 export const { addFile, setActiveFile, setFileName, removeFile } =
     filesSlice.actions
 
-export const getFiles = (state) => state.files.files
+export const getFiles = (state) => state.blocks.files

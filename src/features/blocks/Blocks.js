@@ -13,11 +13,13 @@ function Blocks(props) {
     useEffect(() => {
         dispatch(getBlocks(allBlocks)).then(({ payload }) => {
             const blocksLength = Object.values(payload).length
-            const newBlankBlock = generateNewBlock(blocksLength)
-            dispatch(blocksAddOne(newBlankBlock))
-            dispatch(setInitialFiles(newBlankBlock))
+            const newBlankBlock = generateNewBlock(blocksLength, true)
+            if (blocksLength === 0) {
+                dispatch(blocksAddOne(newBlankBlock))
+                dispatch(setInitialFiles(newBlankBlock))
+            }
         })
-    }, [dispatch])
+    }, [])
 
     return (
         <div>

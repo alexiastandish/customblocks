@@ -1,13 +1,14 @@
 import { fetchBlock } from '../features/blocks/blocksApi'
-import { removeFile } from '../features/files/filesSlice'
-import { blockRemove } from '../features/blocks/blocksSlice'
+import { blockRemove, removeFile } from '../features/blocks/blocksSlice'
 
 export const removeBlockFile = (id) => async (dispatch, getState) => {
     const {
-        files: { files },
+        blocks: { files },
     } = getState()
     await fetchBlock(id).then((res) => {
+        console.log('res', res)
         const position = files.findIndex((el) => el.id === id)
+        console.log('position', position)
         if (!res) {
             dispatch(blockRemove(id))
             return dispatch(removeFile(position))

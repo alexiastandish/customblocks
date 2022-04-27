@@ -13,11 +13,11 @@ function FileTabs({ children }) {
         blockId: null,
     })
     const dispatch = useDispatch()
-    const files = useSelector((state) => state.files.files)
-    const activeFile = useSelector((state) => state.files.activeFile)
+    const files = useSelector((state) => state.blocks.files)
+    const activeFile = useSelector((state) => state.blocks.activeFile)
     const findFile = files.findIndex((el) => el.id === activeFile)
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
-    const getBlocks = useSelector((state) => state.blocks.entities)
+    const getBlocks = useSelector((state) => state.blocks.files)
 
     const setBlockValidation = (id) => {
         setValidating({ id, open: true })
@@ -27,7 +27,7 @@ function FileTabs({ children }) {
             <ul className="tabrow">
                 {children.map((item, index) => {
                     const itemId = files[index].id
-                    const blockUnsaved = getBlocks[itemId].unsavedChanges
+                    const blockUnsaved = getBlocks[itemId]
 
                     return (
                         <FileTabLabel
@@ -62,11 +62,11 @@ function FileTabs({ children }) {
                             const activeFileIndex = files.findIndex(
                                 (file) => file.id === activeFile
                             )
-                            handleRemoveFile(
-                                removedFileIndex,
-                                activeFileIndex,
-                                files,
-                                dispatch
+                            dispatch(
+                                handleRemoveFile(
+                                    removedFileIndex,
+                                    activeFileIndex
+                                )
                             )
 
                             return setValidating({ id: null, open: false })

@@ -1,8 +1,10 @@
 import { setActiveFile, addFile } from '../features/files/filesSlice'
 
 export const addAndSetFile = (block) => (dispatch, getState) => {
-    const { files } = getState()
-    const fileIsAlreadyActive = files.files.filter((file) => {
+    const {
+        blocks: { files },
+    } = getState()
+    const fileIsAlreadyActive = files.filter((file) => {
         return file.id === block.id
     })[0]
     if (fileIsAlreadyActive) {

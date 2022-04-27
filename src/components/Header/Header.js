@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { blockUpdate } from '../../features/blocks/blocksSlice'
 function Header(props) {
     const dispatch = useDispatch()
-    const activeFile = useSelector((state) => state.files.activeFile)
+    const activeFile = useSelector((state) => state.blocks.activeFile || '')
     const blocks = useSelector((state) => state.blocks.entities)
     return (
         <StyledHeader>
@@ -15,6 +15,7 @@ function Header(props) {
                 <button
                     onClick={() => {
                         const updatedBlock = blocks[activeFile]
+                        console.log('updatedBlock', updatedBlock)
                         dispatch(
                             blockUpdate({
                                 id: activeFile,

@@ -1,6 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { getActiveFileCode } from './editorSelectors'
+import {
+    getActiveFileCode,
+    getActiveFile,
+    getExtension,
+} from './editorSelectors'
 import { debounce } from 'lodash'
 import { updateAndPersistCode } from 'thunks/update-and-persist-code'
 import { setExtension } from './editorSlice'
@@ -12,8 +16,8 @@ function Editor(props) {
     // TODO: This file is a WIP - needs some clean up and abstraction of functions that are being reused
     const dispatch = useDispatch()
     const activeFileCode = useSelector(getActiveFileCode)
-    const extension = useSelector((state) => state.editor.extension)
-    const activeFile = useSelector((state) => state.files.activeFile)
+    const extension = useSelector(getExtension)
+    const activeFile = useSelector(getActiveFile)
 
     const [code, setCode] = useState(activeFileCode)
     const [initialFiles, setInitialFiles] = useState(null)
@@ -22,7 +26,6 @@ function Editor(props) {
         debounce((newCode) => {
             dispatch(updateAndPersistCode(newCode)).then((updatedBlock) => {
                 if (updatedBlock.files[extension] !== initialFiles[extension]) {
-                    console.log('updatedBlock', updatedBlock)
                     dispatch(
                         blockUpdate({
                             id: activeFile,
