@@ -13,6 +13,7 @@ export const updateAndPersistCode = (newCode) => async (dispatch, getState) => {
             [extension]: newCode,
         },
     }
+
     await dispatch(blockUpdate({ id: activeFile, changes: updatedBlock }))
     return updatedBlock
 }

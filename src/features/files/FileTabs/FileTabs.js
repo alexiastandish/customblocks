@@ -62,11 +62,11 @@ function FileTabs({ children }) {
                             const activeFileIndex = files.findIndex(
                                 (file) => file.id === activeFile
                             )
-                            handleRemoveFile(
-                                removedFileIndex,
-                                activeFileIndex,
-                                files,
-                                dispatch
+                            dispatch(
+                                handleRemoveFile(
+                                    removedFileIndex,
+                                    activeFileIndex
+                                )
                             )
 
                             return setValidating({ id: null, open: false })

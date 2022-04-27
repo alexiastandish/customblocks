@@ -17,10 +17,12 @@ function Editor(props) {
 
     const [code, setCode] = useState(activeFileCode)
     const [initialFiles, setInitialFiles] = useState(null)
-
+    console.log('extension', extension)
     const debouncedSave = useCallback(
         debounce((newCode) => {
             dispatch(updateAndPersistCode(newCode)).then((updatedBlock) => {
+                console.log('updatedBlock', updatedBlock)
+
                 if (updatedBlock.files[extension] !== initialFiles[extension]) {
                     console.log('updatedBlock', updatedBlock)
                     dispatch(

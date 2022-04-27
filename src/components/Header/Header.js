@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { setBlocks } from '../../features/blocks/blocksApi'
 import { useSelector, useDispatch } from 'react-redux'
-import { blockUpdate } from '../../features/blocks/blocksSlice'
+
 function Header(props) {
     const dispatch = useDispatch()
     const activeFile = useSelector((state) => state.files.activeFile)
@@ -15,17 +15,24 @@ function Header(props) {
                 <button
                     onClick={() => {
                         const updatedBlock = blocks[activeFile]
-                        dispatch(
-                            blockUpdate({
-                                id: activeFile,
-                                changes: {
-                                    ...updatedBlock,
-                                    unsavedChanges: false,
-                                    unsavedBlock: false,
-                                },
-                            })
-                        )
-                        return setBlocks(activeFile, blocks[activeFile])
+                        const cleanedUpBlock = {
+                            files: updatedBlock.files,
+                            id: activeFile,
+                            name: updatedBlock.name,
+                            timestamp: Date.now(),
+                            index: Object.values(blocks).length,
+                            unsavedChanges: false,
+                            unsavedBlock: false,
+                        }
+                        // dispatch(
+                        //     blockUpdate({
+                        //         id: activeFile,
+                        //         changes: {
+                        //             ...cleanedUpBlock,
+                        //         },
+                        //     })
+                        // )
+                        return dispatch(setBlocks(activeFile, cleanedUpBlock))
                     }}
                 >
                     Save

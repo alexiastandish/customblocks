@@ -31,11 +31,8 @@ function FileTabLabel({
                     ) : (
                         <span
                             onClick={() => {
-                                return handleRemoveFile(
-                                    index,
-                                    selectedTab,
-                                    files,
-                                    dispatch
+                                return dispatch(
+                                    handleRemoveFile(index, selectedTab)
                                 )
                             }}
                         >

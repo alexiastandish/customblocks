@@ -19,6 +19,7 @@ export const filesSlice = createSlice({
             state.activeEditorFile.name = action.payload
         },
         removeFile(state, action) {
+            console.log('action.payload', action.payload)
             state.files.splice(action.payload, 1)
         },
     },
