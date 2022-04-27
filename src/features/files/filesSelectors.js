@@ -1,7 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit'
 import generateNewBlock from '../../utils/generateNewBlock'
 import { getBlocksLength } from '../blocks/blocksSlice'
-import { getFiles } from './filesSlice'
 
 // export const filesSelector = createSelector(
 //     [getBlocks, getFiles],
@@ -14,6 +13,6 @@ import { getFiles } from './filesSlice'
 //     }
 // )
 
-export const filesSelector = (state) => state.files.files
+export const getFiles = (state) => state.files.files
 
 // export const

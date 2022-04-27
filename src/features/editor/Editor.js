@@ -14,17 +14,13 @@ function Editor(props) {
     const activeFileCode = useSelector(getActiveFileCode)
     const extension = useSelector((state) => state.editor.extension)
     const activeFile = useSelector((state) => state.files.activeFile)
-
     const [code, setCode] = useState(activeFileCode)
     const [initialFiles, setInitialFiles] = useState(null)
-    console.log('extension', extension)
     const debouncedSave = useCallback(
         debounce((newCode) => {
+            console.log('newCode', newCode)
             dispatch(updateAndPersistCode(newCode)).then((updatedBlock) => {
-                console.log('updatedBlock', updatedBlock)
-
                 if (updatedBlock.files[extension] !== initialFiles[extension]) {
-                    console.log('updatedBlock', updatedBlock)
                     dispatch(
                         blockUpdate({
                             id: activeFile,
@@ -41,7 +37,7 @@ function Editor(props) {
                 }
             })
         }, 200),
-        [initialFiles, extension]
+        [initialFiles, extension, activeFile]
     )
 
     useEffect(() => {

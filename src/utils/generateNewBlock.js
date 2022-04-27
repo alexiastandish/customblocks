@@ -1,6 +1,7 @@
 import defaultBlock from '../features/blocks/default-block.json'
 
 const generateNewBlock = (blocksLength) => {
+    console.log('blocksLength', blocksLength)
     const newBlockFiles = {
         ...defaultBlock,
         name: `block ${blocksLength + 1}`,

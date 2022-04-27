@@ -3,9 +3,10 @@ import FileTabLabel from './FileTabLabel'
 import { useDispatch, useSelector } from 'react-redux'
 import './FileTabs.css'
 import { addNewBlock } from 'thunks/add-new-block'
-import { blocksSelector } from '../../blocks/blocksSelectors'
+import { blocksSelector, getBlockEntities } from '../../blocks/blocksSelectors'
 import { Modal } from 'semantic-ui-react'
 import { handleRemoveFile } from '../../../utils/handleRemoveFile'
+import { setBlocks } from '../../blocks/blocksApi'
 
 function FileTabs({ children }) {
     const [validating, setValidating] = useState({
@@ -17,8 +18,8 @@ function FileTabs({ children }) {
     const activeFile = useSelector((state) => state.files.activeFile)
     const findFile = files.findIndex((el) => el.id === activeFile)
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
-    const getBlocks = useSelector((state) => state.blocks.entities)
-
+    const getBlocks = useSelector(getBlockEntities)
+    console.log('getBlocks', getBlocks)
     const setBlockValidation = (id) => {
         setValidating({ id, open: true })
     }
@@ -72,7 +73,30 @@ function FileTabs({ children }) {
                             return setValidating({ id: null, open: false })
                         },
                     },
-                    { key: 'save', content: 'Save', positive: true },
+                    {
+                        key: 'save',
+                        content: 'Save',
+                        positive: true,
+                        onClick: async () => {
+                            const updatedBlock = getBlocks[activeFile]
+
+                            const cleanedUpBlock = {
+                                files: updatedBlock.files,
+                                id: activeFile,
+                                name: updatedBlock.name,
+                                timestamp: Date.now(),
+                                unsavedChanges: false,
+                                unsavedBlock: false,
+                            }
+
+                            dispatch(
+                                setBlocks(activeFile, cleanedUpBlock)
+                            ).then((res) => {
+                                console.log('res', res)
+                                return setValidating({ id: null, open: false })
+                            })
+                        },
+                    },
                 ]}
             />
         </div>

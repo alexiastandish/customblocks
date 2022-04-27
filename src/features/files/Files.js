@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { filesSelector } from './filesSelectors'
+import { getFiles } from './filesSelectors'
 import FileTab from './FileTabs/FileTab'
 import FileTabs from './FileTabs/FileTabs'
 
@@ -8,7 +8,7 @@ function Files(props) {
     const dispatch = useDispatch()
     const activeFile = useSelector((state) => state.files.activeFile)
 
-    let files = useSelector(filesSelector)
+    let files = useSelector(getFiles)
 
     return (
         <>

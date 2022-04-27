@@ -13,9 +13,6 @@ export const removeBlockFile = (id) => async (dispatch, getState) => {
             return dispatch(blockRemove(id))
         } else {
             await dispatch(removeFile(position))
-            // await dispatch(setActiveFile(files[files.length - 1].id))
-
-            // dispatch(setActiveFile(block.id))
         }
     })
 }

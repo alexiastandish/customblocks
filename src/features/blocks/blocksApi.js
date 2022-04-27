@@ -1,6 +1,6 @@
 import { db } from '../../services/firebase/init-firebase'
 import { ref, onValue, set } from 'firebase/database'
-import { blocksSetAll, blockUpdate } from './blocksSlice'
+import { blockUpdate } from './blocksSlice'
 
 export const fetchBlocks = () => {
     return new Promise((resolve) => {
@@ -32,13 +32,11 @@ export const fetchBlock = (id) => {
 }
 
 export const setBlocks = (id, block) => async (dispatch, getState) => {
-    console.log('block', block)
     const currentBlocks = await fetchBlocks()
     let updatedBlocks = { ...currentBlocks }
     const updatedBlock = {
         files: block.files,
         id: block.id,
-        index: block.index,
         name: block.name,
         timestamp: Date.now(),
     }

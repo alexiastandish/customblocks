@@ -2,11 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import { setBlocks } from '../../features/blocks/blocksApi'
 import { useSelector, useDispatch } from 'react-redux'
+import { getBlockEntities } from '../../features/blocks/blocksSelectors'
 
 function Header(props) {
     const dispatch = useDispatch()
     const activeFile = useSelector((state) => state.files.activeFile)
-    const blocks = useSelector((state) => state.blocks.entities)
+    const blocks = useSelector(getBlockEntities)
     return (
         <StyledHeader>
             <h1>Custom Blocks</h1>
@@ -20,18 +21,10 @@ function Header(props) {
                             id: activeFile,
                             name: updatedBlock.name,
                             timestamp: Date.now(),
-                            index: Object.values(blocks).length,
                             unsavedChanges: false,
                             unsavedBlock: false,
                         }
-                        // dispatch(
-                        //     blockUpdate({
-                        //         id: activeFile,
-                        //         changes: {
-                        //             ...cleanedUpBlock,
-                        //         },
-                        //     })
-                        // )
+
                         return dispatch(setBlocks(activeFile, cleanedUpBlock))
                     }}
                 >

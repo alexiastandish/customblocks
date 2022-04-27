@@ -1,14 +1,20 @@
 import { blocksSlice } from '../features/blocks/blocksSlice'
 import { combineReducers } from 'redux'
-import { persistReducer } from 'redux-persist'
+import { persistReducer, createTransform } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { filesSlice } from '../features/files/filesSlice'
 import { editorSlice } from '../features/editor/editorSlice'
+
+const MyTransformer = createTransform((inboundState, key) => {
+    console.log('inboundState', inboundState)
+    return { ...inboundState }
+}, {})
 
 const persistConfig = {
     key: 'codeblocks',
     storage,
     whitelist: ['blocks', 'files', 'editor'],
+    transforms: [MyTransformer],
 }
 
 const appReducer = combineReducers({

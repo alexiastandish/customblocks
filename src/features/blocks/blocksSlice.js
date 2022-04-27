@@ -43,7 +43,6 @@ export const getBlocks = createAsyncThunk(
 //                 [newBlock.id]: {
 //                     files: newBlock.files,
 //                     id: newBlock.id,
-//                     index: Object.values(data).length,
 //                     name: newBlock.name,
 //                     timestamp: Date.now(),
 //                 },
@@ -74,7 +73,6 @@ export const blocksSlice = createSlice({
     }),
     reducers: {
         blocksAddOne: (state, { payload }) => {
-            console.log('ADD', payload)
             const updatedBlock = {
                 ...payload,
             }
@@ -97,16 +95,12 @@ export const blocksSlice = createSlice({
         [getBlocks.pending]: (state) => {
             state.loading = true
         },
+
         [getBlocks.fulfilled]: (state, { payload }) => {
             state.loading = false
 
-            return blocksAdapter.upsertMany(state, payload)
+            return blocksAdapter.upsertMany(state, sortBlocks(payload))
         },
-        // [getBlocks.fulfilled]: (state, { payload }) => {
-        //     state.loading = false
-
-        //     // return blocksAdapter.upsertMany(state, sortBlocks(payload))
-        // },
         [getBlocks.rejected]: (state) => {
             state.loading = false
         },
@@ -119,7 +113,6 @@ export const { blocksAddOne, blocksSetAll, blockUpdate, blockRemove } =
 export const getBlocksLength = (state) => state.blocks
 
 const sortBlocks = (blocks) => {
-    console.log('blocks', blocks)
     if (Object.values(blocks).length > 1) {
         // const sortedArray = Object.values(blocks).sort((a, b) => {
         //     return a.timestamp - b.timestamp
