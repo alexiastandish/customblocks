@@ -3,16 +3,24 @@ import styled from 'styled-components'
 import { setBlocks } from '../../features/blocks/blocksApi'
 import { useSelector, useDispatch } from 'react-redux'
 import { getBlockEntities } from '../../features/blocks/blocksSelectors'
+import { DateTime } from 'luxon'
 
 function Header(props) {
     const dispatch = useDispatch()
     const activeFile = useSelector((state) => state.files.activeFile)
     const blocks = useSelector(getBlockEntities)
+    // const test = DateTime.fromObject(blocks[activeFile].timestamp)
+    // console.log('test', test)
+    const lastUpdated =
+        blocks[activeFile]?.timestamp &&
+        DateTime.fromISO(blocks[activeFile]?.timestamp).toFormat(
+            'MMMM dd, yyyy HH:mm:ss'
+        )
     return (
         <StyledHeader>
             <h1>Custom Blocks</h1>
             <div className="save-controls">
-                <p>Last update: </p>
+                {lastUpdated && <p>Last update: {lastUpdated} </p>}
                 <button
                     onClick={() => {
                         const updatedBlock = blocks[activeFile]
@@ -20,7 +28,7 @@ function Header(props) {
                             files: updatedBlock.files,
                             id: activeFile,
                             name: updatedBlock.name,
-                            timestamp: Date.now(),
+                            timestamp: DateTime.now().toISO(),
                             unsavedChanges: false,
                             unsavedBlock: false,
                         }

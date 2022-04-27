@@ -8,19 +8,18 @@ export const handleRemoveFile =
         const {
             files: { files },
         } = getState()
+        if (activeFileIndex !== removedFileIndex) {
+            await dispatch(removeBlockFile(files[removedFileIndex].id))
+        }
         if (activeFileIndex === removedFileIndex) {
             if (removedFileIndex === 0) {
-                console.log('12')
                 if (files.length === 1) {
-                    // console.log('14')
-                    // debugger
                     return
-                } else {
-                    // console.log('17')
-                    // debugger
-                    dispatch(removeBlockFile(files[removedFileIndex].id))
-                    dispatch(setActiveFile(files[1].id))
                 }
+                // else {
+                //     dispatch(removeBlockFile(files[removedFileIndex].id))
+                //     dispatch(setActiveFile(files[1].id))
+                // }
             } else {
                 const id = files[removedFileIndex].id
 
@@ -42,14 +41,10 @@ export const handleRemoveFile =
                 }
             }
         } else {
-            console.log('27')
-            // debugger
             if (removedFileIndex === 0 && files.length === 1) {
-                // debugger
                 dispatch(setActiveFile(files[0].id))
             }
 
             dispatch(setActiveFile(files[removedFileIndex + 1].id))
-            // dispatch(removeBlockFile(files[removedFileIndex].id))
         }
     }

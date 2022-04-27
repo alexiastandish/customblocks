@@ -19,16 +19,16 @@ function FileTabs({ children }) {
     const findFile = files.findIndex((el) => el.id === activeFile)
     const allBlocks = useSelector((state) => blocksSelector.selectAll(state))
     const getBlocks = useSelector(getBlockEntities)
-    console.log('getBlocks', getBlocks)
     const setBlockValidation = (id) => {
         setValidating({ id, open: true })
     }
+
     return (
         <div>
             <ul className="tabrow">
                 {children.map((item, index) => {
                     const itemId = files[index].id
-                    const blockUnsaved = getBlocks[itemId].unsavedChanges
+                    const blockUnsaved = getBlocks[itemId]?.unsavedChanges
 
                     return (
                         <FileTabLabel
@@ -56,7 +56,7 @@ function FileTabs({ children }) {
                         key: 'dontSave',
                         content: `Don't Save`,
                         positive: false,
-                        onClick: () => {
+                        onClick: (e) => {
                             const removedFileIndex = files.findIndex(
                                 (file) => file.id === validating.id
                             )
@@ -92,7 +92,6 @@ function FileTabs({ children }) {
                             dispatch(
                                 setBlocks(activeFile, cleanedUpBlock)
                             ).then((res) => {
-                                console.log('res', res)
                                 return setValidating({ id: null, open: false })
                             })
                         },

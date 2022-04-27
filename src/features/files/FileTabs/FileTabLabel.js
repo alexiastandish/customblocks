@@ -13,9 +13,13 @@ function FileTabLabel({
 }) {
     const dispatch = useDispatch()
 
-    const onClick = useCallback(() => {
-        dispatch(setActiveFile(files[index].id))
-    }, [index, dispatch, files])
+    const onClick = useCallback(
+        (e) => {
+            e.stopPropagation()
+            dispatch(setActiveFile(files[index].id))
+        },
+        [index, dispatch, files]
+    )
 
     return (
         <>
@@ -24,13 +28,27 @@ function FileTabLabel({
                     {title}{' '}
                     {unsaved ? (
                         <span
-                            onClick={() => setBlockValidation(files[index].id)}
+                            style={{
+                                height: 20,
+                                width: 20,
+                                border: '1px solid red',
+                            }}
+                            onClick={(e) => {
+                                e.stopPropagation()
+                                return setBlockValidation(files[index].id)
+                            }}
                         >
                             o
                         </span>
                     ) : (
                         <span
-                            onClick={() => {
+                            style={{
+                                height: 20,
+                                width: 20,
+                                border: '1px solid red',
+                            }}
+                            onClick={(e) => {
+                                e.stopPropagation()
                                 return dispatch(
                                     handleRemoveFile(index, selectedTab)
                                 )

@@ -11,7 +11,6 @@ import { getFiles } from '../files/filesSelectors'
 export const getSidebarBlocks = createSelector(
     [getBlockEntities, getFiles],
     (blocks, files) => {
-        console.log('files', files)
         const filteredBlocks = []
         Object.values(blocks).map((block) => {
             if (!block.unsavedBlock) {
@@ -28,12 +27,10 @@ function Blocks(props) {
         Object.values(state.blocks.entities)
     )
     const sidebarBlocks = useSelector(getSidebarBlocks)
-    console.log('sidebarBlocks', sidebarBlocks)
     const files = useSelector(getFiles)
     useEffect(() => {
         dispatch(getBlocks(allBlocks)).then(({ payload }) => {
             if (files.length === 0) {
-                console.log('hi')
                 const blocksLength = Object.values(payload).length
                 const newBlankBlock = generateNewBlock(blocksLength)
 

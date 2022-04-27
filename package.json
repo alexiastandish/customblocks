@@ -9,6 +9,7 @@
         "@testing-library/user-event": "^7.2.1",
         "axios": "^0.26.1",
         "firebase": "^9.6.11",
+        "luxon": "^2.3.2",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
         "react-redux": "^8.0.0",
@@ -19,6 +20,7 @@
         "redux-persist": "^6.0.0",
         "semantic-ui-css": "git+https://github.com/Semantic-Org/Semantic-UI-CSS.git",
         "semantic-ui-react": "^2.1.2",
+        "styled-components": "^5.3.5",
         "yup": "^0.32.11"
     },
     "scripts": {
@@ -53,6 +55,7 @@
         }
     },
     "peerDependencies": {
+        "luxon": "^2.3.2",
         "styled-components": "^5.3.5"
     }
 }

@@ -24,47 +24,6 @@ export const getBlocks = createAsyncThunk(
     }
 )
 
-// export const setBlocks = createAsyncThunk(
-//     'blocks/fetchBlocks',
-//     async (newBlock, thunkAPI) => {
-//         console.log('newBlock', newBlock)
-//         const { blocks } = thunkAPI.getState()
-//         console.log('blocks', blocks)
-//         const currentBlocks = await fetchBlocks()
-
-//         let updatedBlocks = { ...currentBlocks }
-//         // updatedBlocks[id] = { ...block, timestamp: Date.now() }
-//         // await set(ref(db, 'blocks/'), updatedBlocks)
-
-//         const res = await fetchBlocks().then((data) => {
-//             console.log('data', data)
-//             return {
-//                 ...data,
-//                 [newBlock.id]: {
-//                     files: newBlock.files,
-//                     id: newBlock.id,
-//                     name: newBlock.name,
-//                     timestamp: Date.now(),
-//                 },
-//             }
-//         })
-//         console.log('res', res)
-//         if (allBlocks.length > 0) {
-//             allBlocks.map((block) => {
-//                 if (res && res[block.id]) {
-//                     res[block.id] = {
-//                         ...res[block.id],
-//                         files: block.files,
-//                         unsavedBlock: false,
-//                         unsavedChanges: false,
-//                     }
-//                 }
-//             })
-//         }
-//         return res
-//     }
-// )
-
 export const blocksSlice = createSlice({
     name: 'blocks',
     initialState: blocksAdapter.getInitialState({
@@ -114,13 +73,13 @@ export const getBlocksLength = (state) => state.blocks
 
 const sortBlocks = (blocks) => {
     if (Object.values(blocks).length > 1) {
-        // const sortedArray = Object.values(blocks).sort((a, b) => {
-        //     return a.timestamp - b.timestamp
-        // })
-        // console.log('sortedArray', sortedArray)
-
         return Object.entries(blocks)
-            .sort(([, a], [, b]) => a.index - b.index)
+            .sort(([, a], [, b]) => {
+                const aNumber = Number(a.id.replace('merchant-name:', ''))
+                const bNumber = Number(b.id.replace('merchant-name:', ''))
+
+                return aNumber - bNumber
+            })
             .reduce((r, [k, v]) => ({ ...r, [k]: v }), {})
     }
 

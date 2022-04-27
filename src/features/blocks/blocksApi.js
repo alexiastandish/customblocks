@@ -1,6 +1,7 @@
 import { db } from '../../services/firebase/init-firebase'
 import { ref, onValue, set } from 'firebase/database'
 import { blockUpdate } from './blocksSlice'
+import { DateTime } from 'luxon'
 
 export const fetchBlocks = () => {
     return new Promise((resolve) => {
@@ -38,7 +39,7 @@ export const setBlocks = (id, block) => async (dispatch, getState) => {
         files: block.files,
         id: block.id,
         name: block.name,
-        timestamp: Date.now(),
+        timestamp: DateTime.now().toISO(),
     }
     updatedBlocks[id] = updatedBlock
     await set(ref(db, 'blocks/'), updatedBlocks)

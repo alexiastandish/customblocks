@@ -7,9 +7,7 @@ import FileTabs from './FileTabs/FileTabs'
 function Files(props) {
     const dispatch = useDispatch()
     const activeFile = useSelector((state) => state.files.activeFile)
-
-    let files = useSelector(getFiles)
-
+    let files = useSelector((state) => state.files.files)
     return (
         <>
             {files.length > 0 && (
