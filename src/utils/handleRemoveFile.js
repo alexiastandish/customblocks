@@ -16,10 +16,6 @@ export const handleRemoveFile =
                 if (files.length === 1) {
                     return
                 }
-                // else {
-                //     dispatch(removeBlockFile(files[removedFileIndex].id))
-                //     dispatch(setActiveFile(files[1].id))
-                // }
             } else {
                 const id = files[removedFileIndex].id
 

@@ -36,6 +36,6 @@ function writeUserData() {
     })
 }
 
-writeUserData()
+// writeUserData()
 //
 export { app, db }

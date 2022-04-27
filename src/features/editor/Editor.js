@@ -7,8 +7,10 @@ import { setExtension } from './editorSlice'
 import { fetchAndSetResetCode } from '../../thunks/fetch-and-set-code'
 import { blockUpdate } from '../blocks/blocksSlice'
 import styled from 'styled-components'
+import CustomEditor from './CustomEditor'
 
-function Editor(props) {
+function Editor({ children }) {
+    const [view, setView] = useState(null)
     // TODO: This file is a WIP - needs some clean up and abstraction of functions that are being reused
     const dispatch = useDispatch()
     const activeFileCode = useSelector(getActiveFileCode)
@@ -16,6 +18,7 @@ function Editor(props) {
     const activeFile = useSelector((state) => state.files.activeFile)
     const [code, setCode] = useState(activeFileCode)
     const [initialFiles, setInitialFiles] = useState(null)
+
     const debouncedSave = useCallback(
         debounce((newCode) => {
             dispatch(updateAndPersistCode(newCode)).then((updatedBlock) => {
@@ -89,12 +92,18 @@ function Editor(props) {
                     js
                 </StyledButton>
             </div>
-            <textarea
+            <CustomEditor
+                setView={setView}
+                initialCode={code}
+                // initialCode={String(code)}
+                view={view}
+            />
+            {/* <textarea
                 style={{ width: '100%', height: '30em' }}
                 onChange={(e) => onChange(e)}
                 value={code}
                 // language={language}
-            />
+            /> */}
         </StyledEditor>
     )
 }

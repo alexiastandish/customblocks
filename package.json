@@ -3,6 +3,18 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@codemirror/basic-setup": "^0.20.0",
+        "@codemirror/commands": "^0.20.0",
+        "@codemirror/highlight": "^0.19.8",
+        "@codemirror/lang-css": "^0.20.0",
+        "@codemirror/lang-html": "^0.20.0",
+        "@codemirror/lang-javascript": "^0.20.0",
+        "@codemirror/language": "^0.20.0",
+        "@codemirror/matchbrackets": "^0.19.4",
+        "@codemirror/state": "^0.20.0",
+        "@codemirror/theme-one-dark": "^0.20.0",
+        "@codemirror/view": "^0.20.3",
+        "@lezer/highlight": "^0.16.0",
         "@reduxjs/toolkit": "^1.8.1",
         "@testing-library/jest-dom": "^4.2.4",
         "@testing-library/react": "^9.5.0",
@@ -57,5 +69,11 @@
     "peerDependencies": {
         "luxon": "^2.3.2",
         "styled-components": "^5.3.5"
+    },
+    "resolutions": {
+        "@codemirror/highlight": "0.19.8",
+        "@codemirror/lang-javascript": "0.20.0",
+        "@codemirror/state": "0.20.0",
+        "@codemirror/view": "0.20.3"
     }
 }
